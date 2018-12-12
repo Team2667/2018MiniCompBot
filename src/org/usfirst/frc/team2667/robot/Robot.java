@@ -12,8 +12,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team2667.robot.commands.ExampleCommand;
-import org.usfirst.frc.team2667.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team2667.robot.commands.Drive;
+import org.usfirst.frc.team2667.robot.subsystems.CubeGrab;
+import org.usfirst.frc.team2667.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team2667.robot.subsystems.GrabThrust;
+import org.usfirst.frc.team2667.robot.commands.DriveStraight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,9 +26,10 @@ import org.usfirst.frc.team2667.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static final ExampleSubsystem kExampleSubsystem
-			= new ExampleSubsystem();
 	public static OI m_oi;
+	public static DriveTrain driveTrain;
+	public static CubeGrab cubeGrab;
+	public static GrabThrust grabThrust;
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -36,10 +40,16 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_oi = new OI();
-		m_chooser.addDefault("Default Auto", new ExampleCommand());
+		RobotMap.init();
+		
+		driveTrain = new DriveTrain();
+		cubeGrab = new CubeGrab();
+		grabThrust = new GrabThrust();
+		m_chooser.addDefault("Default Auto", new Drive());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
+		m_chooser.addDefault("Drive straight forward so we don't get in another team's way", new DriveStraight());
+		m_oi = new OI();
 	}
 
 	/**

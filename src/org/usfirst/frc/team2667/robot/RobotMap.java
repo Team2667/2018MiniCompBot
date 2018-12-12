@@ -7,6 +7,14 @@
 
 package org.usfirst.frc.team2667.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -14,13 +22,47 @@ package org.usfirst.frc.team2667.robot;
  * floating around.
  */
 public class RobotMap {
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
-
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
+	// Instantiated Parts
+	public static WPI_TalonSRX driveTrainLeftFront;
+	public static WPI_TalonSRX driveTrainLeftRear;
+	public static WPI_TalonSRX driveTrainRightFront;
+	public static WPI_TalonSRX driveTrainRightRear;
+	
+	public static WPI_TalonSRX leftThrust;
+	public static WPI_TalonSRX rightThrust;
+	
+	public static DifferentialDrive driveTrain;
+	public static ADXRS450_Gyro gyro;
+	public static Spark pivot;
+	
+	// Other Things
+	public static void init() {
+		// Assigning numbers to parts
+		driveTrainLeftFront = new WPI_TalonSRX(1);
+		driveTrainLeftRear = new WPI_TalonSRX(2);
+		driveTrainRightFront = new WPI_TalonSRX(3);
+		driveTrainRightRear = new WPI_TalonSRX(4);
+		leftThrust = new WPI_TalonSRX(5);
+		rightThrust = new WPI_TalonSRX(6);
+		
+		// Drive Train
+		driveTrainLeftRear.follow(driveTrainLeftFront);
+		driveTrainRightRear.follow(driveTrainRightFront);
+		
+		driveTrainLeftFront.setInverted(true);
+		driveTrainRightFront.setInverted(true);
+		driveTrainRightRear.setInverted(true);
+		driveTrainLeftRear.setInverted(true);
+		
+		
+		driveTrain = new DifferentialDrive(driveTrainLeftFront, driveTrainRightFront);
+		gyro = new ADXRS450_Gyro();
+		
+		// Cube Grab
+		pivot = new Spark(0);
+		
+	
+		
+	}
+	
 }

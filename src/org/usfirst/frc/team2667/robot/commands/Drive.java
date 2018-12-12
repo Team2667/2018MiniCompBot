@@ -7,42 +7,50 @@
 
 package org.usfirst.frc.team2667.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team2667.robot.Robot;
 
 /**
  * An example command.  You can replace me with your own command.
  */
-public class ExampleCommand extends Command {
-	public ExampleCommand() {
-		// Use requires() here to declare subsystem dependencies
-		requires(Robot.kExampleSubsystem);
-	}
+public class Drive extends Command {
 
-	// Called just before this Command runs the first time
-	@Override
-	protected void initialize() {
-	}
+	Joystick joy;
+	
+	// I need a comment here so it's even
+    public Drive() {
+    	requires(Robot.driveTrain);
+    }
 
-	// Called repeatedly when this Command is scheduled to run
-	@Override
-	protected void execute() {
-	}
+    // Called just before this Command runs the first time
+    @Override
+    protected void initialize() {
+    	joy = Robot.m_oi.joystick;
+    }
 
-	// Make this return true when this Command no longer needs to run execute()
-	@Override
-	protected boolean isFinished() {
-		return false;
-	}
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    protected void execute() {
+    	Robot.driveTrain.arcadeDrive(joy.getY(), joy.getX());
+    }
 
-	// Called once after isFinished returns true
-	@Override
-	protected void end() {
-	}
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	@Override
-	protected void interrupted() {
-	}
+    // Called once after isFinished returns true
+    @Override
+    protected void end() {
+    	Robot.driveTrain.stop();
+    }
+
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    @Override
+    protected void interrupted() {
+    	end();
+    }
 }
